@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#071b2b">
+<title>Christmas Wonderland</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{--gold:#ffd978;--cream:#fff6df;--red:#b52b42;--green:#17634e;--night:#071b2b}
+*{box-sizing:border-box}body{margin:0;color:var(--cream);font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:radial-gradient(ellipse at 50% 0%,#245b63 0,#102f42 42%,#061522 100%);min-height:100vh;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.35;background-image:radial-gradient(#fff 1px,transparent 1.5px);background-size:37px 43px}
+.wrap{max-width:520px;margin:auto;padding:22px 17px 40px;position:relative}.screen{display:none}.screen.active{display:block}
+.hero{text-align:center;padding:30px 12px 24px}.eyebrow{letter-spacing:4px;color:var(--gold);font-size:11px;font-weight:800}.logo{font-size:65px;filter:drop-shadow(0 8px 15px #0008);margin:15px 0 4px}.hero h1{font-family:Georgia,serif;font-size:clamp(34px,9vw,48px);line-height:1.03;margin:6px 0;color:#fff2c6;text-shadow:0 3px 18px #ffcf6755}.hero p{color:#c5d9d8;line-height:1.5;margin:12px auto 22px;max-width:310px}
+button{border:0;font:inherit;cursor:pointer}.primary{width:100%;padding:16px;border-radius:18px;background:linear-gradient(135deg,#ffe8a4,#d9a83e);color:#34230a;font-weight:900;letter-spacing:1px;box-shadow:0 8px 24px #0005}.subtle{background:#ffffff12;color:var(--cream);border:1px solid #ffffff26;padding:12px 15px;border-radius:14px}
+.top{display:flex;align-items:center;justify-content:space-between;margin:5px 0 20px}.brand{font-family:Georgia,serif;font-weight:700;color:var(--gold);font-size:20px}.pill{background:#ffffff12;border:1px solid #ffffff24;border-radius:99px;padding:8px 12px;font-size:12px;color:#ffe8a4}
+h2{font-family:Georgia,serif;color:#fff0c4;font-size:27px;margin:8px 0}.muted{color:#b9ccca;font-size:13px;line-height:1.5}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}.tile{min-height:125px;text-align:left;padding:17px;border-radius:20px;background:linear-gradient(145deg,#1e5960dd,#123546ee);border:1px solid #ffffff22;color:var(--cream);box-shadow:0 9px 22px #0003}.tile .emoji{font-size:29px;display:block;margin-bottom:12px}.tile b{display:block;font-size:15px}.tile small{color:#bfd5d0}
+.panel{background:#ffffff0d;border:1px solid #ffffff20;border-radius:22px;padding:18px;margin-top:16px;box-shadow:0 10px 25px #0002}.question{font-size:19px;line-height:1.45;color:#fff5db;margin:16px 0 20px}.answer{display:none;color:#c8f0d8;background:#14543e66;padding:13px;border-radius:13px;margin:12px 0}.actions{display:flex;gap:9px;margin-top:12px}.actions button{flex:1}.good{background:#176b4b;color:white}.bad{background:#8f2939;color:white}.back{margin:15px 0 0;width:100%}
+.gift{font-size:56px;text-align:center;margin:8px}.link{color:#ffe19a;word-break:break-all}
+footer{text-align:center;color:#8eaaa9;font-size:11px;margin:30px 0 0}
+</style>
+</head>
+<body><main class="wrap">
+<section id="welcome" class="screen active">
+ <div class="hero"><div class="eyebrow">A LITTLE MAGIC • A LOT OF FUN</div><div class="logo">🎄</div><h1>Christmas<br>Wonderland</h1><p>Step into a sparkling winter world of riddles, clever challenges and festive surprises.</p><button class="primary" onclick="show('home')">✨ ENTER THE WONDERLAND ✨</button><p class="muted">Let the Christmas magic begin</p></div>
+</section>
+<section id="home" class="screen">
+ <div class="top"><div class="brand">🎄 Wonderland</div><div class="pill">❄ Festive season</div></div>
+ <h2>Welcome, Explorer!</h2><div class="muted">Choose your adventure. Every question brings a little more magic.</div>
+ <div class="grid">
+  <button class="tile" onclick="startQuiz('puzzles')"><span class="emoji">🧩</span><b>Puzzle Palace</b><small>100 brain teasers</small></button>
+  <button class="tile" onclick="startQuiz('trivia')"><span class="emoji">🌟</span><b>Knowledge Quest</b><small>53 festive & general questions</small></button>
+  <button class="tile" onclick="show('tasks')"><span class="emoji">🎯</span><b>Tasks</b><small>Discover activities</small></button>
+  <button class="tile" onclick="show('gifts')"><span class="emoji">🎁</span><b>Gift Center</b><small>Share the Christmas spirit</small></button>
+  <button class="tile" onclick="share()"><span class="emoji">💌</span><b>Invite Friends</b><small>Bring your friends along</small></button>
+  <button class="tile" onclick="show('profile')"><span class="emoji">👑</span><b>My Journey</b><small>Your local progress</small></button>
+ </div>
+</section>
+<section id="game" class="screen">
+ <div class="top"><button class="subtle" onclick="show('home')">← Menu</button><div class="pill" id="counter">Question 1</div></div>
+ <div class="panel"><div class="eyebrow" id="category">PUZZLE PALACE</div><div class="question" id="q">Loading...</div><div class="answer" id="a"></div><button class="subtle" style="width:100%" onclick="reveal()">👀 See the Answer</button><div class="actions"><button class="subtle good" onclick="rate(true)">✓ I Got It Right</button><button class="subtle bad" onclick="rate(false)">✕ I Missed It</button></div><div class="actions"><button class="subtle" onclick="move(-1)">← Previous</button><button class="subtle" onclick="move(1)">Next →</button></div></div>
+</section>
+<section id="tasks" class="screen"><button class="subtle" onclick="show('home')">← Menu</button><h2>🎯 Festive Tasks</h2><div class="panel"><b>Join our Telegram channel</b><p class="muted">Follow announcements and community updates.</p><a class="link" href="https://t.me/kingcrypto153" target="_blank">Open @kingcrypto153 ↗</a><p class="muted">Channel membership checks and reward verification need a secure bot backend.</p></div></section>
+<section id="gifts" class="screen"><button class="subtle" onclick="show('home')">← Menu</button><h2>🎁 Gift Center</h2><div class="panel"><div class="gift">🎅🎁</div><h3>Give a Christmas Gift</h3><p class="muted">Share kindness. Only send crypto if you understand the network and address. Transfers are generally irreversible.</p><p class="muted">USDT TRC20<br><span class="link">TNLutE3bVfgpv2TC1g7m9zsBLHN6QkhtqD</span></p><p class="muted">USDT ERC20<br><span class="link">0xfc6FFAf7071D294787E6AeFa78B518A0A078947d</span></p><p class="muted">TON<br><span class="link">UQDet88FXDLu7BfVjxrqvf4a08BmXLPVYaAN7TYCxTPu4XfC</span></p></div><div class="panel"><div class="gift">🎄</div><h3>Christmas Giveaway</h3><p class="muted">A festive giveaway announcement is coming soon. Details will be shared when officially available. Participation does not guarantee a reward.</p></div></section>
+<section id="profile" class="screen"><button class="subtle" onclick="show('home')">← Menu</button><h2>👑 My Journey</h2><div class="panel"><p>Correct answers: <b id="score">0</b></p><p class="muted">This starter version stores your score on this device only. Secure accounts and synced progress require a backend.</p></div></section>
+<footer>Made with ❄ and Christmas magic</footer>
+</main>
+<script>
+const tg=window.Telegram?.WebApp; if(tg){tg.ready();tg.expand();try{tg.setHeaderColor('#071b2b');tg.setBackgroundColor('#071b2b')}catch(e){}}
+function show(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
+const puzzles=[
+["What has keys but cannot open locks?","A piano."],
+["What gets wetter as it dries?","A towel."],
+["The more you take, the more you leave behind. What are they?","Footsteps."],
+["What has a neck but no head?","A bottle."],
+["What can travel around the world while staying in one corner?","A stamp."],
+["What has one eye but cannot see?","A needle."],
+["What belongs to you but other people use it more?","Your name."],
+["What has cities but no houses, forests but no trees, and rivers but no water?","A map."],
+["I am full of holes but still hold water. What am I?","A sponge."],
+["What comes once in a minute, twice in a moment, but never in a thousand years?","The letter M."]
+];
+const trivia=[
+["Which plant is traditionally kissed under during Christmas?","Mistletoe."],
+["What is the name of the reindeer with a glowing red nose?","Rudolph."],
+["In which month is Christmas celebrated on December 25?","December."],
+["Which country is often credited with popularizing the Christmas tree tradition?","Germany."],
+["What do people traditionally put at the top of a Christmas tree?","A star or an angel."],
+["Which season begins in December in the Northern Hemisphere?","Winter."],
+["What is frozen water called?","Ice."],
+["How many days are there in a leap year?","366."],
+["Which planet is known as the Red Planet?","Mars."],
+["What is the largest ocean on Earth?","The Pacific Ocean."]
+];
+let mode='puzzles',idx=0,score=0,answered={};
+function bank(){return mode==='puzzles'?puzzles:trivia}
+function startQuiz(m){mode=m;idx=0;show('game');render()}
+function render(){let item=bank()[idx];document.getElementById('category').textContent=mode==='puzzles'?'PUZZLE PALACE':'KNOWLEDGE QUEST';document.getElementById('counter').textContent=`Question ${idx+1} of ${bank().length}`;document.getElementById('q').textContent=item[0];document.getElementById('a').textContent='Answer: '+item[1];document.getElementById('a').style.display='none'}
+function reveal(){document.getElementById('a').style.display='block'}
+function move(n){idx=(idx+n+bank().length)%bank().length;render()}
+function rate(ok){let key=mode+idx;if(!answered[key]&&ok)score++;answered[key]=true;document.getElementById('score').textContent=score;move(1)}
+function share(){let url=location.href; if(tg?.initDataUnsafe?.user){tg.openTelegramLink('https://t.me/share/url?url='+encodeURIComponent(url)+'&text='+encodeURIComponent('Come explore Christmas Wonderland! 🎄'))}else if(navigator.share){navigator.share({title:'Christmas Wonderland',url})}else{alert('Copy and share this Mini App link: '+url)}}
+</script></body></html>
